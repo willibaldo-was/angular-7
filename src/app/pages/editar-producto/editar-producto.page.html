@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button default="/producto"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label color="primary">Nuevo nombre del producto</ion-label>
+      <ion-input type="text" placeholder = "(escribe el nuevo nombre)"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary">Nuevo precio del producto</ion-label>
+      <ion-input type="number" placeholder = "(escribe el nuevo precio)"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="block"
+    [routerLink] = "['../producto']"
+  > Actualizar producto
+  </ion-button>
+
+</ion-content>

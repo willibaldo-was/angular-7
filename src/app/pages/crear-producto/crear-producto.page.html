@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/producto"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nuevo Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label color="primary">Nombre del producto</ion-label>
+      <ion-input type="text" placeholder = "(escribe el nombre)"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary">Precio $</ion-label>
+      <ion-input type="number" placeholder = "(escribe el precio)"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="block"
+  [routerLink]="['../producto']"
+  (click) = "generarProducto()"
+  >Guardar</ion-button>
+</ion-content>
