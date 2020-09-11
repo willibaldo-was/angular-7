@@ -37,6 +37,10 @@ const routes: Routes = [
     path: 'editar-producto',
     loadChildren: () => import('./pages/editar-producto/editar-producto.module').then( m => m.EditarProductoPageModule)
   },
+  {
+    path: 'control-asistencia',
+    loadChildren: () => import('./pages/control-asistencia/control-asistencia.module').then( m => m.ControlAsistenciaPageModule)
+  },
 ];
 
 @NgModule({
