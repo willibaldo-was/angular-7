@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TicketInterface } from '../../models/ticketInterface';
-import { TicketService } from '../../services/ticket.service';
+
 import { Router } from '@angular/router';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'app-ticket',
@@ -11,16 +12,22 @@ import { Router } from '@angular/router';
 export class TicketPage implements OnInit {
 
   tickets: TicketInterface[]=[];
-  constructor(public ticketService: TicketService,
+  constructor(
+              private ticketService: DatabaseService,
               private router: Router) {   }
 
   ngOnInit() {
-    this.tickets =  this.ticketService.getTickets();
-    
+    this.ticketService.getDatabaseState().subscribe(rdy => {
+      if(rdy){
+        this.ticketService.getTicketsHoy().subscribe(tickets => {
+          this.tickets = tickets;
+        })
+      }
+    });
   }
-  onSelect(ticket:TicketInterface,id){
+  /*onSelect(ticket:TicketInterface,id){
     this.router.navigate(['/ticket/ticket-detail'],id);
-  }
+  }*/
   crearTicket(){
     this.router.navigate(['/home']);
   }

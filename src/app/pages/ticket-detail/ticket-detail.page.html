@@ -22,8 +22,8 @@
   <div class="row mt-2">
     <div class="col-md ml-3">
       <ul class="list-group">
-        <li *ngFor = "let producto of ticket.productos">
-          {{producto.qty}}-{{producto.description}} x ${{producto.price}}
+        <li *ngFor = "let producto of ticket">
+          {{producto.cant}}-{{producto.description}} x ${{producto.subtotal}}
         </li>
       </ul>
     </div>

@@ -7,15 +7,22 @@ CREATE TABLE IF NOT EXISTS productos (
 	total	INTEGER,
 	hide	TEXT
 );
-CREATE TABLE IF NOT EXISTS tickets (
-	id_ticket	INTEGER,
-	id_producto	INTEGER,
-	cant	INTEGER,
-	importe	INTEGER,
-	total	INTEGER,
-	fecha	TEXT,
-	hora	TEXT
+
+CREATE TABLE IF NOT EXISTS tickets_hoy (
+	id_ticket	TEXT,
+	consecutivo INTEGER,
+	subtotal	INTEGER,
+	time_ticket	TEXT
 );
+
+CREATE TABLE IF NOT EXISTS tickets (
+	id_ticket	TEXT,
+	consecutivo	INTEGER,
+	id_producto INTEGER,
+	qty			INTEGER,
+	sub_total	INTEGER
+);
+
 CREATE TABLE IF NOT EXISTS ventas (
 	id_venta	INTEGER,
 	fecha	TEXT,
@@ -42,17 +49,20 @@ CREATE TABLE IF NOT EXISTS ventas (
 	id_16	INTEGER,
 	id_17	INTEGER
 );
+
 CREATE TABLE IF NOT EXISTS gastos (
 	id_gastos	INTEGER,
 	id_salida	INTEGER,
 	importe	INTEGER,
 	fecha	TEXT
 );
+
 CREATE TABLE IF NOT EXISTS salidas (
 	id_salida	INTEGER,
 	description	TEXT,
 	price		INTEGER
 );
+
 INSERT or IGNORE INTO productos VALUES (1,'Hdo Sencillo',16,1,1,16,'false');
 INSERT or IGNORE INTO productos VALUES (2,'Hdo Doble',30,1,1,30,'false');
 INSERT or IGNORE INTO productos VALUES (3,'Canasta',40,1,1,40,'false');
@@ -70,12 +80,26 @@ INSERT or IGNORE INTO productos VALUES (14,'Tamal solo',10,1,1,10,'false');
 INSERT or IGNORE INTO productos VALUES (15,'Tamal c/ torta',12,1,1,12,'false');
 INSERT or IGNORE INTO productos VALUES (16,'Atole',8,1,1,8,'false');
 INSERT or IGNORE INTO productos VALUES (17,'Tamal Dulce',15,1,1,15,'false');
-INSERT or IGNORE INTO tickets VALUES (1,1,5,16,80,'27/08/2020','13:00');
-INSERT or IGNORE INTO tickets VALUES (2,2,8,30,240,'27/08/2020','13:10');
-INSERT or IGNORE INTO tickets VALUES (3,3,6,40,240,'27/08/2020','14:20');
-INSERT or IGNORE INTO tickets VALUES (4,4,7,17,119,'28/08/2020','13:50');
-INSERT or IGNORE INTO tickets VALUES (5,5,5,20,100,'28/08/2020','15:30');
-INSERT or IGNORE INTO tickets VALUES (6,6,6,30,180,'28/08/2020','17:39');
+
+INSERT or IGNORE INTO tickets_hoy VALUES ('OCT15_1',1,47,'Wed Oct 14 2020 16:46:25 GMT-0500 (Central Daylight Time)');
+INSERT or IGNORE INTO tickets_hoy VALUES ('OCT15_2',2,30,'Wed Oct 14 2020 17:44:21 GMT-0500 (Central Daylight Time)');
+INSERT or IGNORE INTO tickets_hoy VALUES ('OCT15_3',3,90,'Wed Oct 14 2020 18:23:18 GMT-0500 (Central Daylight Time)');
+
+INSERT or IGNORE INTO tickets VALUES ('OCT15_1',1,4,1,17);
+INSERT or IGNORE INTO tickets VALUES ('OCT15_1',1,6,1,30);
+
+INSERT or IGNORE INTO tickets VALUES ('OCT15_2',2,6,1,30);
+
+INSERT or IGNORE INTO tickets VALUES ('OCT15_3',3,6,1,30);
+INSERT or IGNORE INTO tickets VALUES ('OCT15_3',3,7,1,30);
+INSERT or IGNORE INTO tickets VALUES ('OCT15_3',3,8,1,17);
+
+INSERT or IGNORE INTO tickets VALUES ('OCT16_1',1,5,1,20);
+INSERT or IGNORE INTO tickets VALUES ('OCT16_1',1,9,2,60);
+INSERT or IGNORE INTO tickets VALUES ('OCT16_1',1,11,1,120);
+
+INSERT or IGNORE INTO tickets VALUES ('OCT16_2',2,12,1,55);
+
 INSERT or IGNORE INTO ventas VALUES (1,'27/08/2020',560,825,'13:00','14:20',3,5,8,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 INSERT or IGNORE INTO ventas VALUES (2,'28/08/2020',399,847,'13:50','17:39',3,0,0,0,7,5,6,0,0,0,0,0,0,0,0,0,0,0);
 INSERT or IGNORE INTO gastos VALUES (1,1,800,'27/08/2020');

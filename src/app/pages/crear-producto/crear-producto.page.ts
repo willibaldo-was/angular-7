@@ -13,7 +13,8 @@ export class CrearProductoPage implements OnInit {
   ngOnInit() {
 
   }
-  generarProducto(description,price){
+  generarProducto(description,price:number){
+    console.log("description",description);
     this.db.addProduct(description,price);
   }
 }

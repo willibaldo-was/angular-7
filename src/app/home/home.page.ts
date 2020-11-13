@@ -3,8 +3,6 @@ import { VentasInterface } from '../models/ventasInterface';
 import { TicketInterface } from '../models/ticketInterface';
 import { TicketService } from '../services/ticket.service';
 import { ProductoInterface } from '../models/productoInterface';
-import { VentasService } from '../services/ventas.service';
-import { ProductoService } from '../services/producto.service';
 import { IonSearchbar } from '@ionic/angular';
 import { DatabaseService } from '../services/database.service';
 
@@ -119,14 +117,14 @@ export class HomePage implements OnInit{
         //agregar a servicio Ticket
         var date = new Date();
         var noTicket = this.tickets.length+1;
-        this.newTicket = {
+        /*this.newTicket = {
          noTicket: noTicket.toString(),
          productos: this.productoService.getTicket(),
          subtotal: this.subtotal,
          time: date
         };
         this.ticketService.addTicket(this.newTicket);
-        this.newTicket = undefined;
+        this.newTicket = undefined;*/
         this.productoService.productoService = [];
         this.ticket = [];
         this.productoService.ticket = [];

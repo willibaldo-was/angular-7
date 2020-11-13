@@ -1,8 +1,6 @@
-import { ProductoInterface } from './productoInterface';
-
 export interface TicketInterface {
-    noTicket: string;
-    productos: ProductoInterface[];
+    id_ticket: string;
+    consecutivo: number;
     subtotal: number;
-    time: Date;
+    time_ticket: Date;
 }

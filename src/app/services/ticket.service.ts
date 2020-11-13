@@ -14,12 +14,14 @@ export class TicketService {
     return this.tickets;
   }
   getTicketDescription(id: string){
+    /*
     return {
       // ... (retorna una copia)
       ...this.tickets.find(ticket => {
       return ticket.noTicket === id
     })
     }
+    */
   }
 /*  
   createTicket(newId: string, newLine:ProductoInterface[],newSubtotal:number,newTime:string){
