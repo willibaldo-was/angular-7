@@ -6,6 +6,7 @@ import { ProductoInterface } from '../models/productoInterface';
 import { VentasService } from '../services/ventas.service';
 import { ProductoService } from '../services/producto.service';
 import { IonSearchbar } from '@ionic/angular';
+import { DatabaseService } from '../services/database.service';
 
 
 @Component({
@@ -24,14 +25,19 @@ export class HomePage implements OnInit{
   private searchedItem: ProductoInterface[];
 
   constructor(
-    private ventasService:VentasService,
-    private productoService: ProductoService,
     private ticketService: TicketService,
-    //private dbService: DbService
+    private productoService: DatabaseService
     ) {
       this.searchedItem = [];
     }
   ngOnInit(){
+    this.productoService.getDatabaseState().subscribe(rdy => {
+      if(rdy){
+        this.productoService.getProductos().subscribe(ptos => {
+          this.productos = ptos;
+        })
+      }
+    });
     this.tickets = this.ticketService.getTickets();
   }//onInit
   
@@ -50,7 +56,10 @@ export class HomePage implements OnInit{
   _ionChange($event:CustomEvent){
     const val = $event.detail.value;
     if(this.searchedItem != undefined){
-      this.searchedItem = this.productoService.getProducts();
+      //this.searchedItem = this.productoService.getProductService();
+      this.productoService.getProductos().subscribe(ptos =>{
+        this.searchedItem = ptos;
+      });
       if(val && val.trim() != ''){
         this.searchedItem = this.searchedItem.filter((item:ProductoInterface) => {
           return (item.description.toLocaleLowerCase().indexOf(val.toLowerCase())>-1)
@@ -77,7 +86,7 @@ export class HomePage implements OnInit{
       case 8: this.x += "8"; this.valueTablero = this.x; this.banderaPluFuntion(); break;
       case 9: this.x += "9"; this.valueTablero = this.x; this.banderaPluFuntion(); break;
       case 'PLU':
-        this.onEventButtonPlu(); this.banderaPlu = 2; 
+          this.onEventButtonPlu(); this.banderaPlu = 2; 
         break;
       case "(+)": this.qtyPlu(1); break;
       case "(-)": this.qtyLess(); break;
@@ -118,7 +127,7 @@ export class HomePage implements OnInit{
         };
         this.ticketService.addTicket(this.newTicket);
         this.newTicket = undefined;
-        this.productoService = new ProductoService;
+        this.productoService.productoService = [];
         this.ticket = [];
         this.productoService.ticket = [];
         this.productoService.subtotal = 0;
@@ -138,22 +147,37 @@ banderaPluFuntion(){
 }
 
 onEventButtonPlu(){
-    // Si el codigo plu esta en los id del arreglo productos
-    var descripcion = this.productoService.indexOfPlu(this.x);
-    if( descripcion != "no existe"){
-        //escribe la descripcion del codigo que se ingreso
-        this.valueTablero = descripcion.toString();
-        //agregar producto al arreglo de ticket
-        this.productoService.addProductTicket();
-        this.subtotal = this.productoService.subtotal;
-        //se obtiene datos del servicios para publicar en html
-        this.ticket = this.productoService.getTicket();
-        this.banderaPlu=2;
-    }else{
-      alert("No existe PLU"); this.valueTablero = "Escribe Codigo PLU";
-    }
-    this.x = "";
+// Si el codigo plu esta en los id del arreglo productos
+var descripcion = this.indexOfPlu(this.x);
+if( descripcion != "no existe"){
+    //escribe la descripcion del codigo que se ingreso
+    this.valueTablero = descripcion.toString();
+    //agregar producto al arreglo de ticket
+    this.addProductTicket();
+    this.subtotal = this.productoService.subtotal;
+    //se obtiene datos del servicios para publicar en html
+    this.ticket = this.productoService.getTicket();
+    this.banderaPlu=2;
+}else{
+  alert("No existe PLU"); this.valueTablero = "Escribe Codigo PLU";
+}
+this.x = "";
 }//onEventButtonPlu()
+
+addProductTicket(){
+  if(this.productoService.idActual != "")
+  // si el producto no existe en el ticket
+      if(this.productos[this.productoService.idActual.valueOf()].logo === 1){
+      this.productoService.ticket.push(this.productos[this.productoService.idActual.valueOf()]);
+      //this.productos[this.idActual.valueOf()].logo = '1';
+      this.productoService.subtotal += this.productos[this.productoService.idActual.valueOf()].price*this.productos[this.productoService.idActual.valueOf()].qty;
+    }else{
+      // si ya existe en el ticket se incrementa una unidad
+      var indexItem = this.productoService.ticket.findIndex(x => x == this.productos[this.productoService.idActual.valueOf()]);
+      this.productoService.plu(indexItem,1);
+    }
+  this.productoService.idActual="";
+}
 
 openForEdit(item: ProductoInterface){
     this.selectedProduct = item;    
@@ -196,7 +220,7 @@ qtyDirecto(num: number){
     const newItem = this.selectedProduct;
     if(newItem != undefined){
         var indexItemTicket = this.productoService.ticket.findIndex(x => x == newItem);
-        var indexItem = this.productoService.productos.findIndex(x => x == newItem);
+        var indexItem = this.productoService.productoService.findIndex(x => x == newItem);
         //actuliza el subtotal
             this.productoService.subtotal = this.productoService.subtotal - (newItem.qty*newItem.price);
             // tambien se debe actualizar el subtotal porque son diferentes
@@ -214,7 +238,7 @@ qtyDirecto(num: number){
   }
   delete(index: number){
     const newItem = this.selectedProduct;
-    var indexItem = this.productoService.productos.findIndex(x => x == newItem);
+    var indexItem = this.productoService.productoService.findIndex(x => x == newItem);
       // elimina producto del arreglo ticket
       this.productoService.ticket.splice(index,1);
       // por alguna extraÃƒÂ±a razon, el ticket y producto se modifican 
@@ -228,14 +252,31 @@ qtyDirecto(num: number){
     this.productoService.productos[indexItem].qty=1;
     this.productoService.productos[indexItem].logo='Ã¢Å“â€œ';
   }
-  productoSeleccionado(id: String){   
-    this.productos = this.productoService.cleanProduct();  
-    this.searchedItem = this.productos;
-    this.productoService.idActual = id;
-    this.x = id.toString();
-    this.valueTablero = id.toString();
+
+  productoSeleccionado(producto:ProductoInterface){   
+    this.searchedItem = [];
+    this.productoService.idActual = producto.id_producto;
+    this.x = producto.id_producto.toString();
+    this.valueTablero = producto.description;
     this.onEventButtonPlu();
   }
-  showIds(){  this.productos = this.productoService.getIdProducts();  }  
+  indexOfPlu(x:String){
+    console.log("this.productos.length",this.productos.length);
+    for (let index = 0; index < this.productos.length; index++) {
+      const id = this.productos[index].id_producto.toString();
+      if (id === x){
+        //id Actual es le id del arreglo Productos
+        this.productoService.idActual = index.toString();
+        return this.productos[index].description; break;
+      }
+    }
+    return 'no existe';
+  }
+  showIds(){  
+    //this.productos = this.productoService.getIdProducts();  
+    this.productoService.getProductos().subscribe(ptos =>{
+      this.productos = ptos;
+    });
+  }  
 }
 

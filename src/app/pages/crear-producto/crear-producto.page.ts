@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductoInterface } from 'src/app/models/productoInterface';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'app-crear-producto',
@@ -7,11 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CrearProductoPage implements OnInit {
 
-  constructor() { }
-
+  constructor(private db: DatabaseService) { }
   ngOnInit() {
+
   }
-  generarProducto(){
-    console.log("entro el metodo")
+  generarProducto(description,price){
+    this.db.addProduct(description,price);
   }
 }

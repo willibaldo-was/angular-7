@@ -50,7 +50,8 @@ CREATE TABLE IF NOT EXISTS gastos (
 );
 CREATE TABLE IF NOT EXISTS salidas (
 	id_salida	INTEGER,
-	Descripcion	TEXT
+	description	TEXT,
+	price		INTEGER
 );
 INSERT or IGNORE INTO productos VALUES (1,'Hdo Sencillo',16,1,1,16,'false');
 INSERT or IGNORE INTO productos VALUES (2,'Hdo Doble',30,1,1,30,'false');
@@ -83,9 +84,9 @@ INSERT or IGNORE INTO gastos VALUES (3,3,5,'27/08/2020');
 INSERT or IGNORE INTO gastos VALUES (4,1,800,'28/08/2000');
 INSERT or IGNORE INTO gastos VALUES (5,2,32,'28/08/2000');
 INSERT or IGNORE INTO gastos VALUES (6,3,15,'28/08/2000');
-INSERT or IGNORE INTO salidas VALUES (1,'Salario');
-INSERT or IGNORE INTO salidas VALUES (2,'Jabon');
-INSERT or IGNORE INTO salidas VALUES (3,'Agua');
-INSERT or IGNORE INTO salidas VALUES (4,'Cloro');
-INSERT or IGNORE INTO salidas VALUES (5,'Servilletas');
-INSERT or IGNORE INTO salidas VALUES (6,'Chocolate');
+INSERT or IGNORE INTO salidas VALUES (1,'Salario',800);
+INSERT or IGNORE INTO salidas VALUES (2,'Jabon',10);
+INSERT or IGNORE INTO salidas VALUES (3,'Agua',20);
+INSERT or IGNORE INTO salidas VALUES (4,'Cloro',10);
+INSERT or IGNORE INTO salidas VALUES (5,'Servilletas',20);
+INSERT or IGNORE INTO salidas VALUES (6,'Chocolate',50);

@@ -41,6 +41,10 @@ const routes: Routes = [
     path: 'control-asistencia',
     loadChildren: () => import('./pages/control-asistencia/control-asistencia.module').then( m => m.ControlAsistenciaPageModule)
   },
+  {
+    path: 'salidas',
+    loadChildren: () => import('./pages/salidas/salidas.module').then( m => m.SalidasPageModule)
+  },
 ];
 
 @NgModule({

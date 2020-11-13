@@ -20,7 +20,6 @@ export class ProductoPage implements OnInit {
       if(rdy){
         this.db.getProductos().subscribe(ptos => {
           this.productos = ptos;
-          console.log(this.productos);
         });
       }
     });

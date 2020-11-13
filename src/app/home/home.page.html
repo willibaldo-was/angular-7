@@ -19,52 +19,23 @@
               (ionCancel)="ionSearchCancel()"
               showCancelButton="always"
               ></ion-searchbar>
-<ion-list>
+<ion-row>
+  <ion-col size="12" class="ion-text-center">
+      <ion-input type="number" placeholder={{valueTablero}}></ion-input>
+      <ion-label>${{subtotal}}.00</ion-label>
+  </ion-col>
+</ion-row>
 
-</ion-list>
-  <div class="row mt-1 ml-2">
-    <!--    <form submit="showIds()">
-        <div class="form-group">
-            -->
-            <input type="text" placeholder={{valueTablero}}>
-            <ion-button class="btn btn-primary ml-2"
-            (click) = "showIds()"
-            >Buscar</ion-button>
-    <!--
-        </div>
-    </form> 
-    -->
-    <label class="ml-3">${{subtotal}}.00</label>
-</div>
-<!--
-<app-producto *ngFor = "let producto of productos" 
-    [producto] = "producto"
-    #listProduct
-    >
-</app-producto>-->
-<ion-list>
+<ion-list >
   <ion-item *ngFor = "let producto of searchedItem"class="card-header d-flex justify-content-between 
     align-item-center" 
     >
         {{producto.description}} (Código = {{producto.id_producto}})
         <ion-button class="btn btn-sm btn-primary"
-        (click) = "productoSeleccionado(producto.id_producto)"
+        (click) = "productoSeleccionado(producto)"
         >Elegir</ion-button>
     </ion-item>
 </ion-list>
-<div class="card"
-    #cardProducto
-    *ngFor = "let producto of productos"
->
-    <ion-item class="card-header d-flex justify-content-between 
-    align-item-center" 
-    >
-        {{producto.description}} (Código = {{producto.id_producto}})
-        <ion-button class="btn btn-sm btn-primary"
-        (click) = "productoSeleccionado(producto.id_producto)"
-        >Elegir</ion-button>
-    </ion-item>
-</div>
 
 <ion-button expand="block"
     [routerLink]="['../ticket']"
